@@ -1,0 +1,12 @@
+reated by https://www.gitignore.io
+
+### mac ###
+.DS_Store
+
+### Vim ###
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
