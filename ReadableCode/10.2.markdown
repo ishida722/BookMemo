@@ -1,0 +1,21 @@
+ユーティリティコード
+====================
+
+C++ でファイルの中身を全て読みこむ関数
+
+```cpp
+ifstream file(file_name);
+
+// ファイルサイズを計算して、バッファにそのサイズを割り当てる。
+file.seekg(0, ios::end);
+const int file_size = file.tellg();
+char* file_buf = new char [file_size];
+
+// ファイルをバッファに読み込む。
+file.seekg(0, ios::beg);
+file.read(file_buf, file_size);
+file.close();
+...
+```
+
+低レベルのユーティリティ関数をつくることは、無関係な下位問題の抽出となる。

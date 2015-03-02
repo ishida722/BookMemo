@@ -1,0 +1,81 @@
+試案2:ベルトコンベヤー設計
+==========================
+
+試案1への改善として
+
+* 不要なデータの削除
+* 事前にカウントを更新しておく
+
+をやる。
+
+## 二段階ベルトコンベアーの実装
+
+クラスのメンバ
+
+```cpp
+class MinuteHourCounter {
+    list<Event> minute_events;
+    list<Event> hour_events; // 直近 1 分間のイベントは含まれて「いない」
+
+    int minute_count;
+    int hour_count; // 直近 1 時間の「すべて」のイベントをカウントしている
+};
+```
+
+実装
+
+```cpp
+void Add(int count) {
+    const time_t now_secs = time();
+    ShiftOldEvents(now_secs); // イベントの移動 1分間リストから1時間リストへ
+
+    // 1 分間のリストに流し込む(1時間のリストはあとから)
+    minute_events.push_back(Event(count, now_secs));
+
+    // ここでカウントを加算しておく
+    // 減算はヘルパーで行なう
+    minute_count += count;
+    hour_count += count;
+}
+
+int MinuteCount() {
+    // カウントを取得するときもイベントの移動をする
+    ShiftOldEvents(time());
+    return minute_count;
+}
+
+int HourCount() {
+    ShiftOldEvents(time());
+    return hour_count;
+}
+```
+
+```cpp
+// 古いイベントを見つけて削除して、hour_count と minute_count を減らす。
+void ShiftOldEvents(time_t now_secs) {
+    const int minute_ago = now_secs - 60;
+    const int hour_ago = now_secs - 3600;
+
+    // 1 分以上経過したイベントを 'minute_events' から 'hour_events' へと移動する。
+    //  （1 時間以上経過した古いイベントは次のループで削除する）
+    while (!minute_events.empty() && minute_events.front().time <= minute_ago) {
+        hour_events.push_back(minute_events.front());
+
+        minute_count -= minute_events.front().count;
+        minute_events.pop_front();
+    }
+
+    // 1 時間以上経過した古いイベントを 'hour_events' から削除する
+    while (!hour_events.empty() && hour_events.front().time <= hour_ago) {
+        hour_count -= hour_events.front().count;
+        hour_events.pop_front();
+    }
+}
+```
+
+## 欠点
+
+最初に挙げた課題はクリアしたが、欠点がある。
+
+* 柔軟性がない、変更する際にコードの大幅な修正が必要になる
+* メモリ使用量が多い、Addが呼びだされるほどメモリを食う

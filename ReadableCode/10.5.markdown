@@ -1,0 +1,45 @@
+プロジェクトに特化した機能
+==========================
+
+```python
+business = Business()
+business.name= request.POST["name"]
+
+# このブロックで名前をURLに変換している
+url_path_name = business.name.lower()
+url_path_name = re.sub(r"['\.]", "", url_path_name)
+url_path_name = re.sub(r"[^a-z0-9]+", "-", url_path_name)
+url_path_name = url_path_name.strip("-")
+business.url= "/biz/" + url_path_name
+
+business.date_created= datetime.datetime.utcnow()
+business.save_to_database()
+```
+
+抽出する
+
+```python
+CHARS_TO_REMOVE = re.compile(r"['\.]+")
+CHARS_TO_DASH = re.compile(r"[^a-z0-9]+")
+
+def make_url_friendly(text):
+    text = text.lower()
+    text = CHARS_TO_REMOVE.sub('', text)
+    text = CHARS_TO_DASH.sub('-', text)
+    return text.strip("-")
+```
+
+元のコードを書きかえる
+
+```python
+business = Business()
+business.name= request.POST["name"]
+
+# 読みやすくなった
+business.url= "/biz/" + make_url_friendly(business.name)
+
+business.date_created= datetime.datetime.utcnow()
+business.save_to_database()
+```
+
+今回抽出した関数は汎用的なものでない。

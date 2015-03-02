@@ -1,0 +1,69 @@
+findClosetLocation()
+====================
+
+「与えられた地点から最も近い場所を見つける」関数を例に、下位問題の抽出をやってみる。
+複数の座標データを含むarrayのなかから (lat,lng)に最も近いものを見つける。
+与えられた地点とarrayの中の地点の一つの距離を算出し、比較し、最も小さいものを返す。
+
+```javascript
+// 与えられた緯度経度に最も近い 'array' の要素を返す。
+// 地球が完全な球体であることを前提としている。
+var findClosestLocation = function (lat, lng, array) {
+    var closest;
+        var closest_dist = Number.MAX_VALUE;
+    for (var i = 0; i < array.length; i += 1) {
+        // 2 つの地点をラジアンに変換する。
+        var lat_rad = radians(lat);
+        var lng_rad = radians(lng);
+        var lat2_rad = radians(array[i].latitude);
+        var lng2_rad = radians(array[i].longitude);
+        //  「球面三角法の第二余弦定理」の公式を使う。
+        var dist = Math.acos(Math.sin(lat_rad) * Math.sin(lat2_rad) +
+                Math.cos(lat_rad) * Math.cos(lat2_rad) *
+                Math.cos(lng2_rad - lng_rad));
+        if (dist < closest_dist) {
+            closest = array[i];
+            closest_dist = dist;
+        }
+    }
+    return closest;
+};
+```
+
+for ループの中では無関係の下位問題を扱っているので新しい関数に抽出する。
+この関数は2地点の座標を与えるとその距離を返す。
+
+```javascript
+var spherical_distance= function (lat1, lng1, lat2, lng2) {
+    var lat1_rad = radians(lat1);
+    var lng1_rad = radians(lng1);
+    var lat2_rad = radians(lat2);
+    var lng2_rad = radians(lng2);
+    //  「球面三角法の第二余弦定理」の公式を使う。
+    return Math.acos(Math.sin(lat1_rad) * Math.sin(lat2_rad) +
+            Math.cos(lat1_rad) * Math.cos(lat2_rad) *
+            Math.cos(lng2_rad - lng1_rad));
+};
+```
+
+残りのコードは以下のようになる。距離の計算部分が抽出された。
+2地点の座標を渡し、返り値の距離を比較している。
+
+```javascript
+var findClosestLocation = function (lat, lng, array) {
+    var closest;
+    var closest_dist = Number.MAX_VALUE;
+    for (var i = 0; i < array.length; i += 1) {
+        var dist = spherical_distance(lat, lng, array[i].latitude, array[i].longitude);
+        if (dist < closest_dist) {
+            closest = array[i];
+            closest_dist = dist;
+        }
+    }
+    return closest;
+};
+```
+
+spherical_distance() は個別にテスト可能であり、呼び出し元の関数を一切知らない。
+
+

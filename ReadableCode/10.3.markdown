@@ -1,0 +1,35 @@
+その他の汎用コード
+==================
+
+Ajax でデータをサーバに送信して返ってきたディクショナリを表示する。
+
+```javascript
+ajax_post({
+    url: 'http://example.com/submit',
+    data: data,
+    on_success: function (response_data) {
+        var str = "{\n";
+        for (var key in response_data) {
+            str += "  " + key + " = " + response_data[key] + "\n";
+    }
+    alert(str + "}");
+    // 引き続き 'response_data' の処理
+    }
+});
+```
+
+このコードの高レベルの目標は「サーバをAjaxで呼びだしてレスポンスを処理する」
+この関数からディクショナリを綺麗に表示するための部分を抽出する。
+
+```javascript
+var format_pretty = function (obj) {
+var str = "{\n";
+    for (var key in obj) {
+        str += "  " + key + " = " + obj[key] + "\n";
+    }
+    return str + "}";
+};
+```
+
+この抽出した関数は独立しているので単体テストができる、また表示部分の機能を改善したいときにもやりやすい。
+

@@ -1,0 +1,34 @@
+必要に応じてインターフェイスを整える
+====================================
+
+**グルーコード**
+
+関数の事前事後処理などの、他のコードを支援するためのコードのこと
+
+ユーザーの機密情報を含んだpthon ディクショナリがあり、それオURLに渡すためにCipherで暗号化するためのグルーコード
+
+```python
+user_info = { "username": "...", "password": "..." }
+user_str = json.dumps(user_info)
+cipher = Cipher("aes_128_cbc", key=PRIVATE_KEY, init_vector=INIT_VECTOR, op=ENCODE)
+encrypted_bytes = cipher.update(user_str)
+encrypted_bytes += cipher.final() # 現在の 128 ビットブロックをフラッシュする
+url = "http://example.com/?user_info=" + base64.urlsafe_b64encode(encrypted_bytes)
+...
+```
+
+目的は「ユーザ情報を暗号化してURLに含める」しかし、「python のオブジェクトをURLセーフな文字列にする」という下位問題が含まれている。これを抽出する。
+
+```python
+def url_safe_encrypt(obj):
+    obj_str = json.dumps(obj)
+    cipher = Cipher("aes_128_cbc", key=PRIVATE_KEY, init_vector=INIT_VECTOR, op=ENCODE)
+    encrypted_bytes = cipher.update(obj_str)
+    encrypted_bytes += cipher.final() # 現在の 128 ビットブロックをフラッシュする
+    return base64.urlsafe_b64encode(encrypted_bytes)
+```
+
+```python
+user_info = { "username": "...", "password": "..." }
+url = "http://example.com/?user_info=" + url_safe_encrypt(user_info)
+```

@@ -1,0 +1,19 @@
+明確な単語を選ぶ
+================
+
+名前に情報を詰めこみために、便利で空虚な単語で避ける。
+
+GetPage(url) という名前はどこからとってくるのか明確ではない。FetchPage() や DownlodPage() にすれば取得先がインターネットであるとわかる。
+
+size() という名前は何のサイズだかわからない。目的に適した明確な名前をつけよう。Height()とか。
+
+状況に合わせて使えるカラフルな単語の例
+
+|単語  |代替案
+|:-----|------:
+|send  |deliver, dispatch, announce, distribute, route
+|find  |search, extract, locate, recover
+|start | launch, create, begin, open
+|make  |create, set up, build, generate, compose, add, new
+
+

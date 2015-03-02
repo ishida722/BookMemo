@@ -1,0 +1,95 @@
+試案1:素朴な解決策
+==================
+
+インターフェイスができたので実装をしていく。まずは簡単なものから始める。
+タイムスタンプのついたイベントのリストを保持する
+
+```cpp
+class MinuteHourCounter {
+    struct Event{
+        Event(int count, time_t time) : count(count), time(time) {}
+        int count;
+        time_t time; // タイムスタンプ
+    };
+
+    list<Event> events;
+
+    public:
+    void Add(int count) {
+        events.push_back(Event(count, time()));
+    }
+    ...
+};
+```
+
+イベントをカウントできる
+
+```cpp
+class MinuteHourCounter {
+    ...
+        int MinuteCount() {
+            int count = 0;
+            const time_t now_secs = time(); // 現在時刻を取得
+            // 現在時刻から60秒前までのタイムスタンプをもつイベントを数える
+            for (list<Event>::reverse_iterator i = events.rbegin();
+                    i != events.rend() && i->time > now_secs - 60; ++i) {
+                count += i->count;
+            }
+            return count;
+        }
+    int HourCount() {
+        int count = 0;
+        const time_t now_secs = time();
+        for (list<Event>::reverse_iterator i = events.rbegin();
+                i != events.rend() && i->time > now_secs - 3600; ++i) {
+            count += i->count;
+        }
+        return count;
+    }
+};
+```
+## コードの理解しやすさ
+
+このコードの読みにくい点
+
+* forループがうるさい
+* 重複している
+
+## 読みやすいバージョン
+
+```cpp
+class MinuteHourCounter {
+    list<Event> events;
+    int CountSince(time_t cutoff) { // ヘルパー関数を追加
+        int count = 0;
+        for (list<Event>::reverse_iterator rit = events.rbegin();
+                rit != events.rend(); ++rit) {
+            if (rit->time <= cutoff) {
+                break;
+            }
+            count += rit->count;
+        }
+        return count;
+    }
+
+    public:
+    void Add(int count) {
+        events.push_back(Event(count, time()));
+    }
+
+    int MinuteCount() {
+        return CountSince(time() - 60);
+    }
+
+    int HourCount() {
+        return CountSince(time() - 3600);
+    }
+};
+```
+
+ヘルパー関数をつくった。これによってトップレベルがとてもすっきりした。
+
+## 問題点
+
+* 全てのイベントを保持しているのでメモリをどんどん食う
+* イベントの量が増えると遅い

@@ -1,0 +1,155 @@
+試案3:時間バケツの設計
+======================
+
+イベントを単位時間ごとに区切って集計し、それを足しあわせることでパケットの量を返す。
+精度は落ちるがパフォーマンスは上がる。
+
+## 時間バケツの実装
+
+まずある期間のカウントを追跡するクラスをつくる。これはMinuteHourCounterを汎化したものになる。
+
+```cpp
+// 時間バケツ N 個のカウントを保持するクラス。
+class TrailingBucketCounter {
+    public:
+        // 例：TrailingBucketCounter(30, 60) は、直近 30 分の時間バケツを追跡する。
+        // 直近30分間を60分割の解像度でカウントするということ
+        TrailingBucketCounter(int num_buckets, int secs_per_bucket);
+
+        void Add(int count, time_t now);
+
+        // 最新の num_buckets の時間に含まれる合計カウントを返す
+        int TrailingCount(time_t now);
+};
+```
+
+時間を引数でわたすことによって時間への依存を最小限にできる。
+
+次にMinuteHourCounterを実装する。
+
+```cpp
+class MinuteHourCounter {
+    // バケツカウンタのインスタンスをクラス変数として持つ
+    TrailingBucketCounter minute_counts;
+    TrailingBucketCounter hour_counts;
+
+    public:
+    // バケツカウンタのコンストラクタを叩く
+    MinuteHourCounter() :
+        minute_counts(/* num_buckets = */ 60, /* secs_per_bucket = */ 1),
+        hour_counts( /* num_buckets = */ 60, /* secs_per_bucket = */ 60) {
+        }
+
+    void Add(int count) {
+        time_t now = time();
+        minute_counts.Add(count, now);
+        hour_counts.Add(count, now);
+    }
+
+    int MinuteCount() {
+        time_t now = time();
+        return minute_counts.TrailingCount(now);
+    }
+
+    int HourCount() {
+        time_t now = time();
+        return hour_counts.TrailingCount(now);
+    }
+};
+```
+
+## TrailingBucketCounter を実装する
+
+潜在的なカウントと合計を扱うヘルパークラスをつくる。
+
+```cpp
+class ConveyorQueue {
+    ConveyorQueue(int max_items);
+
+    // キューの最後の値を増加する。
+    void AddToBack(int count);
+
+    // キューの値を 'num_shifted' の分だけシフトする。
+    // 新しい項目は 0 で初期化する。
+    // 最古の項目は max_items 以下なら削除する。
+    void Shift(int num_shifted);
+
+    // 現在のキューに含まれる項目の合計値を返す。
+    int TotalSum();
+};
+```
+
+```cpp
+class TrailingBucketCounter {
+    ConveyorQueue buckets;
+    const int secs_per_bucket;
+    time_t last_update_time; // Update() が最後に呼び出された時刻
+
+    // 通過した時間バケツの数を計算して Shift() する。
+    void Update(time_t now) {
+        int current_bucket = now / secs_per_bucket;
+        int last_update_bucket = last_update_time / secs_per_bucket;
+        buckets.Shift(current_bucket - last_update_bucket);
+        last_update_time = now;
+    }
+
+    public:
+    TrailingBucketCounter(int num_buckets, int secs_per_bucket) :
+        buckets(num_buckets),
+        secs_per_bucket(secs_per_bucket) {
+        }
+
+    void Add(int count, time_t now) {
+        Update(now);
+        buckets.AddToBack(count);
+    }
+
+    int TrailingCount(time_t now) {
+        Update(now);
+        return buckets.TotalSum();
+    }
+};
+```
+
+```cpp
+// 最大数を持ったキュー。古いデータは端から「落ちる」。
+class ConveyorQueue {
+    queue<int> q;
+    int max_items;
+    int total_sum; // q に含まれるすべての項目の合計
+    public:
+    ConveyorQueue(int max_items) : max_items(max_items), total_sum(0) {
+    }
+
+    int TotalSum() {
+        return total_sum;
+    }
+
+    void Shift(int num_shifted) {
+        // 項目がシフトされすぎた場合に、キューをクリアする。
+        if (num_shifted >= max_items) {
+            q = queue<int>(); // clear the queue
+            total_sum = 0;
+            return;
+        }
+
+        // 必要な分だけ 0 をプッシュする。
+        while (num_shifted > 0) {
+            q.push(0);
+            num_shifted--;
+        }
+
+        // 超過した項目はすべて落とす。
+        while (q.size() > max_items) {
+            total_sum -= q.front();
+            q.pop();
+        }
+    }
+
+    void AddToBack(int count) {
+        if (q.empty()) Shift(1); // q が少なくとも 1 つの項目を持つようにする。
+        q.back() += count;
+        total_sum += count;
+    }
+};
+```

@@ -1,0 +1,25 @@
+既存のインターフェイスを簡潔にする
+==================================
+
+キレイでないインターフェイスを持つ関数をラップしてキレイにする。
+
+javascript でクッキーを扱う場合、document.cookie というクッキーの名前と値のペアがぜんぶ詰まった文字列をパースしなければいけない。
+
+以下はクッキーを読みこむコード
+
+```javascript
+var max_results;
+var cookies = document.cookie.split(';');
+for (var i = 0; i < cookies.length; i++) {
+    var c = cookies[i];
+    c = c.replace(/^[ ]+/, ''); // 先頭の空白を削除
+    if (c.indexOf("max_results=") === 0)
+        max_results = Number(c.substring(12, c.length));
+}
+```
+
+これを以下のようにわかりやすくシンプルなインターフェイスでラップする
+
+```javascript
+var max_results = Number(get_cookie("max_results"));
+```
