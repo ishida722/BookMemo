@@ -1,0 +1,44 @@
+動的メモリ割り当て
+==================
+
+ベクタ構造(配列)のメモリを動的に割り当てる方法。
+
+```c
+int
+update_msg(uchar *msg, int *msglen, int Vlist[], int c)
+{
+    [...]
+    int *RRlen; //ポインタの宣言
+    [...]
+    RRlen = (int *)malloc((unsigned)c * sizeof(int));
+    // ポインタにアドレスを確保して与える
+    // 確保するアドレスは要素の数 * サイズ
+    if (!RRlen) // メモリが不足してるときの処理
+    panic(errno, "malloc(RRlen)");
+    [...]
+    for (i = 0; i < c; i++) {
+        [...]
+        RRlen[i] = dn_skipname(cp, msg + *msglen);
+        // 配列のようにつかえる
+        [...]
+    }
+    [...]
+    free((char *)RRlen); // メモリを開放
+    return (n);
+}
+```
+
+メモリ不足対策でmalloc の戻り値をチェックするのめんどくさいのでラッパーを書く場合が多い。
+
+```c
+xmalloc(u_int size)
+{
+    void *p;
+    if ((p= malloc(size)) == NULL)
+        err(FATAL, "%s", strerror(errno));
+        return (p);
+}
+    [...]
+    oe = xmalloc(s);
+    (void)regerror(errcode, preg, oe, s);
+```
