@@ -22,9 +22,23 @@ pbitvec[j/BITS_PER_LONG] |= ((unsigned long)1 << (j % BITS_PER_LONG));
     ((p)->fds_bits[(n)/NFDBITS] & (1 << ((n) % NFDBITS)))
 ```
 
+ポインタとビット(要素)を与える。
+fds_bits というのがポインタがメンバとして持つ集合。
+集合内部で要素がどの配列番号に属しているかを n/NFDBITS で出す
+配列要素と存在を確認したいビットだけを立てた値を and すると
+もし要素が存在するなら true が返ってくる。
+
 集合から要素を削除
 
 ```c
 #define FD_CLR(n, p) \
-    ((p)->fds_bits[(n)/NFDBITS] &= ̃(1 << ((n) % NFDBITS)))
+    ((p)->fds_bits[(n)/NFDBITS] &= ̃~(1 << ((n) % NFDBITS)))
 ```
+
+上と同様にして、削除したいビットだけ立てた値をひっくりかえして &= すると当該ビットだけ消える。
+
+```c
+resourceQuarks[q >> 3] |= 1 << (q & 0x7);
+```
+
+
