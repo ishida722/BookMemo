@@ -27,7 +27,7 @@ update_msg(uchar *msg, int *msglen, int Vlist[], int c)
     return (n);
 }
 ```
-
+# malloc のラッパー
 メモリ不足対策でmalloc の戻り値をチェックするのめんどくさいのでラッパーを書く場合が多い。
 
 ```c
@@ -42,3 +42,27 @@ xmalloc(u_int size)
     oe = xmalloc(s);
     (void)regerror(errcode, preg, oe, s);
 ```
+
+# 割り当てメモリの調整
+配列のサイズがデータを格納するときに決まる場合、データに合わせて十分なメモリを確保する必要がある。
+こういうときは realloc() をつかってメモリのサイズを変更する。
+
+```c
+void
+remember_rup_data(char *host, struct statstime *st)
+{
+    if (rup_data_idx >= rup_data_max) { // 割り当てられたサイズとインデックスを比較
+        rup_data_max += 16; // サイズを更新
+        rup_data = realloc (rup_data, // 割り当てメモリを更新
+        rup_data_max * sizeof(struct rup_data));
+        if (rup_data == NULL) {
+            err (1, "realloc"); // たぶんエラーを返す関数
+        }
+    }
+    rup_data[rup_data_idx].host = strdup(host);
+    rup_data[rup_data_idx].statstime = *st;
+    rup_data_idx++;
+}
+```
+
+rup_data構造体の中身がよくわからん。
