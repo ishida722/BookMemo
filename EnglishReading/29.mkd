@@ -1,0 +1,32 @@
+2つのVのルール
+==============
+
+**1つの主語に2つの述語動詞があるときは、原則として等位接続詞が必要**
+
+もしこのルールに違反するものがあった場合、次の可能性を考える。
+
+* どちらかは述語動詞ではない
+* どちらも述語動詞なら、主語が異なる
+
+```
+The decrease in the number of job offers for women …
+```
+
+この文で動詞は、decrease,offers
+
+offers を動詞と考え、その主語を the decrease とすると、offers の s は3単現のsとなる。「仕事の数の現象は、女性に対して…を提供する」という意味になる。
+
+```
+The decrease in the number of job offers for women is …
+```
+
+最後に is が出てきた場合、これは述語動詞に確定する。
+述語動詞が2つあり、等位接続詞がない、というのはルール違反なので、おかしい。
+offers が名詞であるとすると、s は複数形の s となる。job offers は求人という意味になる。
+
+```
+The decrease in the number of job offers for women is unexpectedlly sharp.
+女性に対する求人数の現象は予期した以上に厳しい。
+```
+
+**The decrease in the number of job offers for women** が主語であり、sharp とイコールでないので

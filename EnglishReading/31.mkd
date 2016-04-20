@@ -1,0 +1,48 @@
+ing形の4つの可能性
+==================
+
+まず動名詞と現在分詞に分かれる、現在分詞はさらに進行形、形容詞用法、分詞構文にわかれる。
+
+# 進行形
+助動詞のbeがついた形で出てくる。
+
+```
+The sun is setting blow the horizon.
+太陽が地平線の下に沈みつつある。
+```
+
+is setting なので進行形。活用は現在。述語動詞。
+
+# 動名詞
+助動詞beがつかずに出てくる。名詞の働きを兼ねる準動詞
+
+```
+You must avoid making the injury worse
+気味はその傷を悪化させることを避けなければいけない。
+```
+
+making は裸のingで準動詞。avoid に対しては名詞の働きをして目的語、the injury worse に対しては動詞の働きをして the joury を目的語、 worse を補語。
+動名詞は必ず準動詞
+
+# 現在分詞形容詞用法
+単独で出てくる。形容詞の働きを兼ねる準動詞
+
+```
+I know the man driving that car.
+私はあの車を運転している男を知っている。
+```
+
+driving は裸のingで準動詞。the man を修飾する形容詞であり、the car を目的語にとる動詞。
+
+# 分詞構文
+単独で出てくる。
+副詞の働きを兼ねる準動詞
+
+```
+The boys marched on, singing merrily.
+少年たちは愉快に歌いながら行進していった。
+```
+
+singing は裸のingで準動詞。marched を修飾する副詞で、merriyに対して動詞。
+
+**be がつかないでing形が出てきたとは必ず準動詞**
