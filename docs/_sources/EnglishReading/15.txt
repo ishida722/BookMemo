@@ -1,0 +1,27 @@
+SVOO
+====
+
+第四文型,授与動詞
+
+::
+
+    He gave me some money.
+    彼は私にいくらか金をくれた。
+
+he と me はイコールの関係にないので目的語。me と money
+はイコールの関係にないので動詞の目的語。目的語がふたつある。授与動詞。
+
+::
+
+    The porter refused us admittance
+    門番は我々に入場を拒絶した
+
+porter と us、us と admittance はイコールの関係にないので目的語
+
+::
+
+    This machine will save you much labor.
+    この機械はあなたから多くの労力を省くだろう
+
+授与動詞を訳すときは、原則として、\ **O1 に O2 を V する**\ 、\ **O1
+から O2 に V する**\ のどちらかになる。

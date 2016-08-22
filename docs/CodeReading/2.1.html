@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>最初に取り上げる完全なプログラム &#8212; Book Memo 1.0 ドキュメント</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Book Memo 1.0 ドキュメント" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>最初に取り上げる完全なプログラム<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>サンプルコードがどこで入手できるかわからない。</p>
+<p>netBSD の echo.c を使う。 自分でひろってきたサンプルコードがある。</p>
+</div>
+<div class="section" id="id2">
+<h1>コマンドライン引数をつかう<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>main関数に引数を与える。慣習的に
+argc,argvをつかっている。第一引数がコマンドライン引数の個数で、第二引数が全ての実引数を含む配列になっている。</p>
+</div>
+<div class="section" id="id3">
+<h1>ポインタについて整理<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>その前にポインタについて少し整理しておく。</p>
+<p>全てのデータはメモリのどこかのアドレスに保存されている。よって全てのデータはメモリアドレスとメモリに保存されている値をもっていることとなる。
+ポインタ変数もまた変数であり、それはどこかのアドレスに保存される。ポインタ変数が保存してるデータは別のどこかのアドレス。</p>
+<div class="section" id="id4">
+<h2>表記について<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ポインタはとりあえず*付けとけみたいな雑なおぼえかたしていたので整理。</p>
+<p>変数iのアドレスを知りたいときは<strong>&amp;</strong>をつける。また逆にアドレスからそのアドレスに格納された値を知りたいときは*をつける。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h1>調べたこと<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<ul class="simple">
+<li>exit()</li>
+<li>getopt()</li>
+<li>ferror()</li>
+<li>fflush()</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">最初に取り上げる完全なプログラム</a></li>
+<li><a class="reference internal" href="#id2">コマンドライン引数をつかう</a></li>
+<li><a class="reference internal" href="#id3">ポインタについて整理</a><ul>
+<li><a class="reference internal" href="#id4">表記について</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">調べたこと</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CodeReading/2.1.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, chu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../_sources/CodeReading/2.1.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

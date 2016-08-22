@@ -1,0 +1,26 @@
+キュー(FIFO)
+============
+
+2つのシステム、インターフェイスの接続でよく利用される。リングバッファがよく利用される。
+
+リングバッファではインデックスが終端に達したら先頭にもどらなければいけない。その処理が以下
+
+.. code:: c
+
+    if (++adbInHead >= ADB_QUEUE)
+        // インデックスがキューの上限まできたら
+        adbInHead=0;
+        // 0にもどす
+
+.. code:: c
+
+    static int history_head, history_tail;
+    #define hist_bump(h) ((++(h) == NUM_HISTORY) ? ((h) = 0) : 0)
+    // h が NUM_HISTORY と等しかったらhを0にする、そうでなかったら false を返してなにもしない
+    // h のインクリメントも行う。
+    [...]
+
+    for (i = history_tail; i != history_head; hist_bump(i))
+    // 初期値をtail、i が head になるまでループ、ループごとにbumpする
+    // つまりインクリメントしつつ、NUM まで到達したらiを0にする
+        DrawPoints (old_pixmaps[i], bit_0_gc, xp, n);

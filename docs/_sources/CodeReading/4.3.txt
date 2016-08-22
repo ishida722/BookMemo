@@ -1,0 +1,41 @@
+スタック(FILO)
+==============
+
+スタック抽象データ型
+====================
+
+.. code:: c
+
+    #define STACKMAX 32
+    // スタック上の要素
+    static int opstack[STACKMAX]; // スタックのデータ、配列
+    static int opsp; // スタックポインタ
+    [...]
+
+    // スタック上端に要素をプッシュ
+    PushOp(int op)
+    {
+        if (opsp==STACKMAX) { // スタックポインタがマックスの値なら
+            strcpy(dispstr,"stack error"); // エラー
+            entered=3;
+        } else
+            opstack[opsp++]=op; // スタックに空きがあれば値を保存し、ポインタを進める
+    }
+
+    // スタックから要素を削除して返す
+    int PopOp()
+    {
+        if (opsp==0) { // ポインタが0ならば
+            strcpy(dispstr,"stack error"); // スタックが空なので何も返せない
+            entered=3;
+            return(kNOP);
+        } else
+            return(opstack[--opsp]); //ポインタを減らして最後の値を返す。
+            // 配列からデータの削除はしない、次にスタックにプッシュするときはポインタの位置に上書きされる。
+    }
+
+    // スタックが空か
+    int isopempty()
+    {
+        return( opsp ? 0 : 1 );
+    }

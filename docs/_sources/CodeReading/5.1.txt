@@ -1,0 +1,78 @@
+再帰
+====
+
+.. code:: bash
+
+    simple-command:
+        item
+        simple-command item
+
+    command:
+        simple-command
+        ( command-list)
+        { command-list}
+        fornamedocommand-listdone
+        fornameinword... docommand-listdone
+        whilecommand-listdocommand-listdone
+        untilcommand-listdocommand-listdone
+        casewordincase-part... esac
+        ifcommand-listthencommand-listelseelse-partfi
+
+    pipeline:
+        command
+        pipeline|command
+        andor:
+        pipeline
+        andor&&pipeline
+        andor||pipeline
+
+    command-list:
+        andor
+
+    command-list;
+        command-list&
+        command-list;andor
+        command-list&andor
+
+コマンドツリーの再帰的な表示
+============================
+
+.. code:: c
+
+    STATIC void
+    cmdtxt(union node *n) // ノード共用体ポインタ
+    {
+        union node *np;
+        struct nodelist *lp;
+
+        if (n == NULL) // 基底ケース 空コマンド
+        return;
+
+        switch (n-＞type) {
+
+        case NSEMI:
+        cmdtxt(n-＞nbinary.ch1);
+        cmdputs("; ");
+        cmdtxt(n-＞nbinary.ch2);
+        break;
+
+        case NAND:
+        cmdtxt(n-＞nbinary.ch1);
+        cmdputs(" && ");
+        cmdtxt(n-＞nbinary.ch2);
+        break;
+
+        /* ... */
+
+        case NPIPE:
+        for (lp = n-＞npipe.cmdlist ; lp ; lp = lp-＞next) {
+            cmdtxt(lp-＞n);
+            if (lp-＞next)
+                cmdputs(" | ");
+        }
+        break;
+
+        /* ... */
+
+        }
+    }

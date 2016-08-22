@@ -1,0 +1,15 @@
+ツリー
+======
+
+各ノードからツリーのルートまでの経路が1つしかない。
+
+バイナリツリー
+
+.. code:: c
+
+    typedef struct tree_s {
+        tree_t data;
+        struct tree_s *left, *right;
+        short bal;
+    }
+    tree;

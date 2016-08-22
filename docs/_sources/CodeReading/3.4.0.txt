@@ -1,0 +1,74 @@
+動的メモリ割り当て
+==================
+
+ベクタ構造(配列)のメモリを動的に割り当てる方法。
+
+.. code:: c
+
+    int
+    update_msg(uchar *msg, int *msglen, int Vlist[], int c)
+    {
+        [...]
+        int *RRlen; //ポインタの宣言
+        [...]
+        RRlen = (int *)malloc((unsigned)c * sizeof(int));
+        // ポインタにアドレスを確保して与える
+        // 確保するアドレスは要素の数 * サイズ
+        if (!RRlen) // メモリが不足してるときの処理
+        panic(errno, "malloc(RRlen)");
+        [...]
+        for (i = 0; i < c; i++) {
+            [...]
+            RRlen[i] = dn_skipname(cp, msg + *msglen);
+            // 配列のようにつかえる
+            [...]
+        }
+        [...]
+        free((char *)RRlen); // メモリを開放
+        return (n);
+    }
+
+malloc のラッパー
+=================
+
+メモリ不足対策でmalloc
+の戻り値をチェックするのめんどくさいのでラッパーを書く場合が多い。
+
+.. code:: c
+
+    xmalloc(u_int size)
+    {
+        void *p;
+        if ((p= malloc(size)) == NULL)
+            err(FATAL, "%s", strerror(errno));
+            return (p);
+    }
+        [...]
+        oe = xmalloc(s);
+        (void)regerror(errcode, preg, oe, s);
+
+割り当てメモリの調整
+====================
+
+配列のサイズがデータを格納するときに決まる場合、データに合わせて十分なメモリを確保する必要がある。
+こういうときは realloc() をつかってメモリのサイズを変更する。
+
+.. code:: c
+
+    void
+    remember_rup_data(char *host, struct statstime *st)
+    {
+        if (rup_data_idx >= rup_data_max) { // 割り当てられたサイズとインデックスを比較
+            rup_data_max += 16; // サイズを更新
+            rup_data = realloc (rup_data, // 割り当てメモリを更新
+            rup_data_max * sizeof(struct rup_data));
+            if (rup_data == NULL) {
+                err (1, "realloc"); // たぶんエラーを返す関数
+            }
+        }
+        rup_data[rup_data_idx].host = strdup(host);
+        rup_data[rup_data_idx].statstime = *st;
+        rup_data_idx++;
+    }
+
+rup\_data構造体の中身がよくわからん。

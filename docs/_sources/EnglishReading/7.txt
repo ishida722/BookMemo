@@ -1,0 +1,22 @@
+SV と SVO
+=========
+
+第一文型と第三文型。
+
+::
+
+    Wholesale prices sank drastically.
+    卸価格は大幅に沈んだ
+
+この文は目的語も補語もないのでsankは完全自動詞。
+
+::
+
+    The children need medeicine for malaria and measles.
+    子供達はマラリアとはしかの薬を必要としてる。
+
+動詞についた名詞を考えて文型を判断する。the children と medicine
+はイコールの関係にない。\ **動詞に直接ついて、かつ主語とイコールの関係にない名詞の働きを動詞の目的語と呼ぶ。**
+
+medicine は need
+の目的語であり、目的語がひとつついているので第三文型である。
