@@ -1,0 +1,14 @@
+疑問形容詞
+==========
+
+疑問の意味を表す形容詞。疑問形容詞の場合は必ず名詞修飾。
+
+::
+
+    What book are you reading?
+    あなたはどんな本を呼んでいるのですか?
+
+    Which train do you take?
+    どちらの電車に乗りますか?
+
+what は book を、which は train を修飾している。

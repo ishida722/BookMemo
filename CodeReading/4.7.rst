@@ -1,0 +1,61 @@
+連結リスト
+==========
+
+リスト要素を表現した構造体をポインタで連結したもの。
+
+連結リストの定義と基本操作
+==========================
+
+.. code:: c
+
+    struct host_list {
+        struct host_list *next; // 次のリスト要素
+        struct in_addr addr; // リストノードデータ
+    } *hosts; // リストヘッド
+    // 構造体を定義して同時にポインタを宣言する
+
+    int
+    search_host(struct in_addr addr) // 構造体リストの項目を検索する
+    {
+        struct host_list *hp;
+        [...]
+        for (hp = hosts; hp != NULL; hp = hp->next) {
+            if (hp->addr.s_addr == addr.s_addr)
+            return(1);
+        }
+        return(0);
+    }
+
+    void
+    remember_host(struct in_addr addr)
+    {
+        struct host_list *hp;
+        if (!(hp = (struct host_list *)malloc(sizeof(struct host_list)))) {
+            err(1, "malloc");
+            /* NOTREACHED */
+        }
+        hp->addr.s_addr = addr.s_addr;
+        hp->next = hosts;
+        hosts = hp;
+    }
+
+複数のリストが存在して、それらをある順番でつなぎたい。 host\_list
+という構造体を用意してそこにリストの中身データと次のリストへのポインタを格納しておく。
+そうすると、複数のリストをある順番で連結することができる。
+
+リストノードはデータと次のリスト要素を指し示すnextポインタを持つ。
+リストヘッドの値がNULLのときリストは空。
+
+リストノードポインタ
+
+リストに新しい要素を追加する
+============================
+
+.. code:: c
+
+    * エイリアス展開をプッシュする*/
+    [...]
+    s->next = source;
+    source = s;
+    [...]
+    source = s->next; /* ソーススタックをポップする*/

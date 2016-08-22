@@ -1,0 +1,28 @@
+配列による引数と戻り値
+======================
+
+.. code:: c
+
+    char *inet_ntoa(struct in_addr ad)
+    {
+        unsigned long int s_ad;
+        int a, b, c, d;
+        static char addr[20];
+
+        s_ad = ad.s_addr;
+        d = s_ad % 256;
+        s_ad /= 256;
+        c = s_ad % 256;
+        s_ad /= 256;
+        b = s_ad % 256;
+        a = s_ad / 256;
+        sprintf(addr, "%d.%d.%d.%d", a, b, c, d);
+        return addr;
+    }
+
+関数内で宣言した配列(static char
+addr[20])を返すとき、値わたいしでなく参照渡しでアドレスのみ渡される。
+よって関数が終了するときに配列も破棄されてしまう。破棄されないように
+static で宣言しておく。
+
+しかしこれでも安全とは言えない。

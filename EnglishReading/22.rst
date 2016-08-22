@@ -1,0 +1,56 @@
+受け身の動詞型
+==============
+
+目的語を伴う動詞でなければ受け身の文はつくれない。
+
+SVOの受け身
+===========
+
+::
+
+    John broke my cup.
+    My cup was broken by John.
+    私のカップはジョンによって壊された。
+
+John と cup はイコールでないので目的語。受け身にするときは be
+動詞をつけて過去分詞にする。be+過去分詞をひとつの動詞として扱う。
+
+SVOO の受け身
+=============
+
+::
+
+    My father gave me a book.
+    I was given a book by my father.
+    私は父によって一冊の本を与えられた。
+
+    A book was given me by my father.
+    一冊の本が父によって私に与えられた。
+
+father, me, book はそれぞれイコールの関係にないので目的語。
+目的語が二つある場合は、どちらかを主語として二つの受け身の文をつくれる。
+
+SVOC の受け身
+=============
+
+::
+
+    The children called the cat Felix.
+    The cat was called Felix by the children.
+    その猫は子供達によってフィリックスと呼ばれていた。
+
+children != cat, cat = Felix なので
+動詞の目的語、補語となっている。受け身のほうは、cat = Felix
+でこれは補語。by the children は前置詞 by
+が名詞につくことによって、副詞になっている。副詞はなんでも修飾できる。今回は動詞を修飾している。呼んでいたのは子供たちなので。
+
+目的語が減る
+============
+
+受け身の文にすると目的語がひとつ少なくなる。
+
+-  SV
+-  SVO
+-  SVC
+
+の3つしか受け身の文の形はない。

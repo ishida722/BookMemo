@@ -1,0 +1,11 @@
+データ構造の動的割り当て
+========================
+
+new マクロ
+==========
+
+.. code:: c
+
+    #define new(type) (type *) calloc(sizeof(type), 1)
+        [...]
+        node = new(struct codeword_entry);
