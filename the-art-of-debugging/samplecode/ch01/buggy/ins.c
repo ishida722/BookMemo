@@ -20,7 +20,7 @@ void get_args(int ac, char **av)
 void scoot_over(int jj)
 {
     int k;
-    for (k = num_y; k > jj; k++)
+    for (k = num_y; k > jj; k--)
         y[k] = y[k-1];
 }
 
