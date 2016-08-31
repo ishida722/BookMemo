@@ -11,23 +11,24 @@ CString *Init_CString(char *str)
 {
     CString *p = malloc(sizeof(CString));
     p->len = strlen(str);
+    p->str = malloc(p->len + 1);
     strncpy(p->str, str, strlen(str) + 1);
     return p;
 }
 
 void Delete_CString(CString *p)
 {
-    free(p);
     free(p->str);
+    free(p);
 }
 
 // CStringの最後の文字を削除して返す
 //
 char Chomp(CString *cstring)
 {
-    char lastchar = *(cstring->str + cstring->len);
+    char lastchar = *(cstring->str + cstring->len - 1);
     // 文字列を1文字短くする
-    *(cstring->str + cstring->len) = '0';
+    *(cstring->str + cstring->len - 1) = '\0';
     cstring->len = strlen(cstring->str);
     return lastchar;
 }
@@ -36,11 +37,11 @@ char Chomp(CString *cstring)
 //
 CString *Append_Chars_To_CString(CString *p, char *str)
 {
-    char *newstr = malloc(p->len + 1);
+    char *newstr = malloc(p->len + strlen(str) + 1);
     p->len = p->len + strlen(str);
     
     // p->strを置き換える新しい文字列を作る
-    snprintf(newstr, p->len, "%s%s", p->str, str);
+    snprintf(newstr, p->len + 1, "%s%s", p->str, str);
     // 古い文字列を解放し CString が新しい文字列を指すようにする
     free(p->str);
     p->str = newstr;
