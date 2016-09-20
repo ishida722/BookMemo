@@ -48,7 +48,7 @@ void *worker(int tn) // tn はスレッド番号 (0,1,...)
         // スレッド間で重複しないように次の倍数を選ぶ
         pthread_mutex_lock(&nextbaselock);
         base = nextbase += 2;
-        pthread_mutex_unlock(&nextbaselock);
+        /* pthread_mutex_unlock(&nextbaselock); */
         if (base <= lim) {
             work[tn]++; // このスレッドの働きを記録する
             //
